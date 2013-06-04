@@ -1,0 +1,16 @@
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\bin\Debug\TestProject.exe.config
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\obj\Debug\TestProject.csprojResolveAssemblyReference.cache
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\bin\Debug\TestProject.exe
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\bin\Debug\TestProject.pdb
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\bin\Debug\Newtonsoft.Json.dll
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\bin\Debug\SocketIOClient.dll
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\bin\Debug\WebSocket4Net.dll
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\bin\Debug\SocketIOClient.pdb
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\bin\Debug\SocketIOClient.xml
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\bin\Debug\Newtonsoft.Json.xml
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\bin\Debug\WebSocket4Net.pdb
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\obj\Debug\TestProject.exe
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\TestProject\obj\Debug\TestProject.pdb
+C:\Users\employee\Documents\Projects\AutoTrade\SocketIO4Net\TestProject\bin\Debug\TestProject.exe.config
+C:\Users\employee\Documents\Projects\AutoTrade\SocketIO4Net\TestProject\obj\Debug\TestProject.exe
+C:\Users\employee\Documents\Projects\AutoTrade\SocketIO4Net\TestProject\obj\Debug\TestProject.pdb

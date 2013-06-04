@@ -1,0 +1,12 @@
+C:\Users\employee\Documents\Projects\AutoTrade\SocketIO4Net\bin\Release\SocketIOClient.XML
+C:\Users\employee\Documents\Projects\AutoTrade\SocketIO4Net\bin\Release\SocketIOClient.dll
+C:\Users\employee\Documents\Projects\AutoTrade\SocketIO4Net\bin\Release\SocketIOClient.pdb
+C:\Users\employee\Documents\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Release\SocketIOClient.csprojResolveAssemblyReference.cache
+C:\Users\employee\Documents\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Release\SocketIOClient.dll
+C:\Users\employee\Documents\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Release\SocketIOClient.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\SocketIO4Net\bin\Release\SocketIOClient.XML
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\SocketIO4Net\bin\Release\SocketIOClient.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\SocketIO4Net\bin\Release\SocketIOClient.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\SocketIO4Net\SocketIO\obj\Release\SocketIOClient.csprojResolveAssemblyReference.cache
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\SocketIO4Net\SocketIO\obj\Release\SocketIOClient.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\SocketIO4Net\SocketIO\obj\Release\SocketIOClient.pdb

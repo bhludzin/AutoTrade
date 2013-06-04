@@ -1,0 +1,8 @@
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.csprojResolveAssemblyReference.cache
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\bin\debug\SocketIOClient.xml
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\bin\debug\SocketIOClient.dll
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\bin\debug\SocketIOClient.pdb
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\bin\debug\SocketIOClient.dll.CodeAnalysisLog.xml
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\bin\debug\SocketIOClient.dll.lastcodeanalysissucceeded
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.dll
+C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.pdb

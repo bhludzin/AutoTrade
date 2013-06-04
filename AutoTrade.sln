@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTrade", "AutoTrade\AutoTrade.csproj", "{A7F7A749-C1BD-4759-BD40-159296CBB874}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCXSharp", "CCXSharp\CCXSharp.csproj", "{48AF038D-27AF-454B-B181-91C2A1940ED6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{580038C5-FB19-4D1E-8F90-329C28DC28EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketIOClient", "SocketIO4Net\SocketIO\SocketIOClient.csproj", "{352C9BC1-F74C-4741-A09D-7227BC60C057}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugILMerge|Any CPU = DebugILMerge|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleaseILMerge|Any CPU = ReleaseILMerge|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7F7A749-C1BD-4759-BD40-159296CBB874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7F7A749-C1BD-4759-BD40-159296CBB874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7F7A749-C1BD-4759-BD40-159296CBB874}.DebugILMerge|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7F7A749-C1BD-4759-BD40-159296CBB874}.DebugILMerge|Any CPU.Build.0 = Debug|Any CPU
+		{A7F7A749-C1BD-4759-BD40-159296CBB874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7F7A749-C1BD-4759-BD40-159296CBB874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7F7A749-C1BD-4759-BD40-159296CBB874}.ReleaseILMerge|Any CPU.ActiveCfg = Release|Any CPU
+		{A7F7A749-C1BD-4759-BD40-159296CBB874}.ReleaseILMerge|Any CPU.Build.0 = Release|Any CPU
+		{48AF038D-27AF-454B-B181-91C2A1940ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48AF038D-27AF-454B-B181-91C2A1940ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48AF038D-27AF-454B-B181-91C2A1940ED6}.DebugILMerge|Any CPU.ActiveCfg = Debug|Any CPU
+		{48AF038D-27AF-454B-B181-91C2A1940ED6}.DebugILMerge|Any CPU.Build.0 = Debug|Any CPU
+		{48AF038D-27AF-454B-B181-91C2A1940ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48AF038D-27AF-454B-B181-91C2A1940ED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48AF038D-27AF-454B-B181-91C2A1940ED6}.ReleaseILMerge|Any CPU.ActiveCfg = Release|Any CPU
+		{48AF038D-27AF-454B-B181-91C2A1940ED6}.ReleaseILMerge|Any CPU.Build.0 = Release|Any CPU
+		{580038C5-FB19-4D1E-8F90-329C28DC28EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{580038C5-FB19-4D1E-8F90-329C28DC28EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{580038C5-FB19-4D1E-8F90-329C28DC28EF}.DebugILMerge|Any CPU.ActiveCfg = Debug|Any CPU
+		{580038C5-FB19-4D1E-8F90-329C28DC28EF}.DebugILMerge|Any CPU.Build.0 = Debug|Any CPU
+		{580038C5-FB19-4D1E-8F90-329C28DC28EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{580038C5-FB19-4D1E-8F90-329C28DC28EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{580038C5-FB19-4D1E-8F90-329C28DC28EF}.ReleaseILMerge|Any CPU.ActiveCfg = Release|Any CPU
+		{580038C5-FB19-4D1E-8F90-329C28DC28EF}.ReleaseILMerge|Any CPU.Build.0 = Release|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.DebugILMerge|Any CPU.ActiveCfg = DebugILMerge|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.DebugILMerge|Any CPU.Build.0 = DebugILMerge|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.Release|Any CPU.Build.0 = Release|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.ReleaseILMerge|Any CPU.ActiveCfg = ReleaseILMerge|Any CPU
+		{352C9BC1-F74C-4741-A09D-7227BC60C057}.ReleaseILMerge|Any CPU.Build.0 = ReleaseILMerge|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

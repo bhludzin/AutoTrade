@@ -1,0 +1,54 @@
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\AutoTrade.exe.config
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\AutoTrade.exe
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\AutoTrade.pdb
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\CCXSharp.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\Cinch.WPF.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\MEFedMVVM.WPF.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\Microsoft.Expression.Interactions.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\Newtonsoft.Json.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\RestSharp.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\SocketIOClient.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\System.Windows.Interactivity.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\WebSocket4Net.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\CCXSharp.pdb
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\Newtonsoft.Json.xml
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\RestSharp.xml
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\SocketIOClient.pdb
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\SocketIOClient.xml
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\WebSocket4Net.pdb
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.csprojResolveAssemblyReference.cache
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.frmMain.resources
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.Properties.Resources.resources
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.csproj.GenerateResource.Cache
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.exe
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.pdb
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\ZzzzRangeBar.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\TestControl.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\Logger.dll
+C:\Users\employee\Documents\Projects\AutoTrade\AutoTrade\bin\Release\Logger.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\AutoTrade.exe.config
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\AutoTrade.exe
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\AutoTrade.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\CCXSharp.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\Cinch.WPF.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\Logger.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\MEFedMVVM.WPF.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\Microsoft.Expression.Interactions.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\Newtonsoft.Json.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\RestSharp.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\SocketIOClient.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\System.Windows.Interactivity.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\WebSocket4Net.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\CCXSharp.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\Logger.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\Newtonsoft.Json.xml
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\RestSharp.xml
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\SocketIOClient.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\SocketIOClient.xml
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\bin\Release\WebSocket4Net.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\obj\Release\AutoTrade.csprojResolveAssemblyReference.cache
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\obj\Release\AutoTrade.frmMain.resources
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\obj\Release\AutoTrade.Properties.Resources.resources
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\obj\Release\AutoTrade.csproj.GenerateResource.Cache
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\obj\Release\AutoTrade.exe
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\obj\Release\AutoTrade.pdb

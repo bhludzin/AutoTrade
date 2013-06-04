@@ -1,0 +1,9 @@
+C:\Users\employee\Documents\Projects\AutoTrade\Logger\obj\Release\Logger.csprojResolveAssemblyReference.cache
+C:\Users\employee\Documents\Projects\AutoTrade\Logger\bin\Release\Logger.dll
+C:\Users\employee\Documents\Projects\AutoTrade\Logger\bin\Release\Logger.pdb
+C:\Users\employee\Documents\Projects\AutoTrade\Logger\obj\Release\Logger.dll
+C:\Users\employee\Documents\Projects\AutoTrade\Logger\obj\Release\Logger.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\Logger\bin\Release\Logger.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\Logger\bin\Release\Logger.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\Logger\obj\Release\Logger.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\Logger\obj\Release\Logger.pdb

@@ -1,0 +1,12 @@
+C:\Users\employee\Documents\Projects\AutoTrade\bin\Release\CCXSharp\CCXSharp.dll.config
+C:\Users\employee\Documents\Projects\AutoTrade\bin\Release\CCXSharp\CCXSharp.dll
+C:\Users\employee\Documents\Projects\AutoTrade\bin\Release\CCXSharp\CCXSharp.pdb
+C:\Users\employee\Documents\Projects\AutoTrade\CCXSharp\obj\Release\CCXSharp.csprojResolveAssemblyReference.cache
+C:\Users\employee\Documents\Projects\AutoTrade\CCXSharp\obj\Release\CCXSharp.dll
+C:\Users\employee\Documents\Projects\AutoTrade\CCXSharp\obj\Release\CCXSharp.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\bin\Release\CCXSharp\CCXSharp.dll.config
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\bin\Release\CCXSharp\CCXSharp.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\bin\Release\CCXSharp\CCXSharp.pdb
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\CCXSharp\obj\Release\CCXSharp.csprojResolveAssemblyReference.cache
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\CCXSharp\obj\Release\CCXSharp.dll
+C:\Users\employee\Documents\Projects\AutoTrade - Copy\CCXSharp\obj\Release\CCXSharp.pdb
