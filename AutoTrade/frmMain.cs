@@ -63,6 +63,31 @@ namespace AutoTrade
                     (decimal)depth.FortyCoinVWAPBuy,
                     (decimal)depth.FortyCoinVWAPSell,
                     System.DateTime.Now.ToLongTimeString());
+
+                int cDepth = Convert.ToInt16(lblDepthCountHTTP.Text.Length == 0 ? "0" : lblDepthCountHTTP.Text);
+
+                ++cDepth;
+                lblDepthCountHTTP.Invoke((Action)(() =>
+                {
+                    lblDepthCountHTTP.Text = cDepth.ToString();
+                }));
+
+
+                lblLastOrderDepthHTTP.Invoke((Action)(() =>
+                {
+                    lblLastOrderDepthHTTP.Text = System.DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt");
+                }));
+
+                this.lblHighBidHTTP.Invoke((Action)(() =>
+                {
+                    lblHighBidHTTP.Text = depth.HighestBid.ToString();
+                }));
+
+                this.lblLowAskHTTP.Invoke((Action)(() =>
+                {
+                    lblLowAskHTTP.Text = depth.LowestAsk.ToString();
+                }));
+
             }
             catch (Exception ex)
             {
@@ -138,6 +163,11 @@ namespace AutoTrade
                         lblBid.Text = depthUpdate.Price.ToString();
                     }));
                 }
+
+                lblLastResultOrder.Invoke((Action)(() =>
+                {
+                    lblLastResultOrder.Text = System.DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt");
+                }));
 
                 Decimal decPrice = Convert.ToDecimal(depthUpdate.Price);
                 Decimal decVolume = Convert.ToDecimal(depthUpdate.Volume);
@@ -315,6 +345,43 @@ namespace AutoTrade
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void btnManualRequestPriceHTTP_Click(object sender, EventArgs e)
+        {
+            Ticker ticker = exchangeConnection.GetTicker(Currency.USD); // current ticker
+
+            try
+            {
+                Decimal decBid = Convert.ToDecimal(ticker.Bid.Substring(1, ticker.Bid.Length - 1));
+                Decimal decAsk = Convert.ToDecimal(ticker.Ask.Substring(1, ticker.Ask.Length - 1));
+                Decimal decPrice = (decBid + decAsk) / 2;
+
+                RecordPrice(decBid, decAsk, decPrice, ticker.TimeStamp.ToString());
+
+                int cPrices = Convert.ToInt16(lblPriceCountHTTP.Text.Length == 0 ? "0" : lblPriceCountHTTP.Text);
+                ++cPrices;
+                lblPriceCountHTTP.Invoke((Action)(() =>
+                {
+                    lblPriceCountHTTP.Text = cPrices.ToString();
+                }));
+
+                lblLastResultPriceHTTP.Invoke((Action)(() =>
+                {
+                    lblLastResultPriceHTTP.Text = System.DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt");
+                }));
+
+                lblLastPriceHTTP.Invoke((Action)(() =>
+                {
+                    lblLastPriceHTTP.Text = ticker.Last.ToString();
+                }));
+
+                m_decLastPrice = Convert.ToDecimal(ticker.Last.Substring(1, ticker.Last.Length - 1));
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogException(ex);
             }
         }
 
