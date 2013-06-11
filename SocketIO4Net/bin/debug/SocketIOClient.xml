@@ -4,111 +4,16 @@
         <name>SocketIOClient</name>
     </assembly>
     <members>
-        <member name="T:SocketIOClient.Messages.Message">
-            <summary>
-            All Socket.IO messages have to be encoded before they're sent, and decoded when they're received.
-            They all have the format of: [message type] ':' [message id ('+')] ':' [message endpoint] (':' [message data])
-            </summary>
-        </member>
-        <member name="T:SocketIOClient.Messages.IMessage">
-            <summary>
-            Interface for core Message class
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.IMessage.MessageType">
-            <summary>
-            Enumeration of one of 9 basic messages provided by socket.io
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.IMessage.RawMessage">
-            <summary>
-            <para>RawMessage includes the full socket.io message string</para>
-            <para>[message type] ':' [message id ('+')] ':' [message endpoint] (':' [message data]) </para>
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.IMessage.Event">
-            <summary>
-            Event 'name' of originating message
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.IMessage.AckId">
-            <summary>
-            AckId represents unique id associated with a message callback
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.IMessage.Endpoint">
-            <summary>
-            Each socket is identified by an endpoint (can be omitted).
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.IMessage.MessageText">
-            <summary>
-            String version of message data
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.IMessage.Encoded">
-            <summary>
-            <para>Socket.IO encoded message structure - represents the actual message string sent to Socket.IO </para>
-            <para>[message type] ':' [message id ('+')] ':' [message endpoint] (':' [message data]) </para>
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.Message.MessageType">
-            <summary>
-            The message type represents a single digit integer [0-8].
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.Message.AckId">
-            <summary>
-            The message id is an incremental integer, required for ACKs (can be ommitted). 
-            If the message id is followed by a +, the ACK is not handled by socket.io, but by the user instead.
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.Message.Endpoint">
-            <summary>
-            Socket.IO has built-in support for multiple channels of communication (which we call "multiple sockets"). 
-            Each socket is identified by an endpoint (can be omitted).
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.Message.MessageText">
-            <summary>
-            String value of the message
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.Message.Event">
-            <summary>
-            String value of the Event
-            </summary>
-        </member>
-        <member name="P:SocketIOClient.Messages.Message.Encoded">
-            <summary>
-            <para>Messages have to be encoded before they're sent. The structure of a message is as follows:</para>
-            <para>[message type] ':' [message id ('+')] ':' [message endpoint] (':' [message data])</para>
-            <para>All message payloads are sent as strings</para>
-            </summary>
-        </member>
-        <member name="T:SocketIOClient.IClient">
-            <summary>
-            C# Socket.IO client interface
-            </summary>
-        </member>
-        <member name="T:SocketIOClient.Messages.NoopMessage">
-            <summary>
-            Defined as No operation. Used for example to close a poll after the polling duration times out.
-            </summary>
-        </member>
-        <member name="T:SocketIOClient.Messages.DisconnectMessage">
-            <summary>
-            Signals disconnection. If no endpoint is specified, disconnects the entire socket.
-            </summary>
-            <remarks>Disconnect a socket connected to the /test endpoint:
-            	0::/test
-            </remarks>
-        </member>
         <member name="T:SocketIOClient.Client">
             <summary>
             Class to emulate socket.io javascript client capabilities for .net classes
             </summary>
             <exception cref="T:System.ArgumentException">Connection for wss or https urls</exception>  
+        </member>
+        <member name="T:SocketIOClient.IClient">
+            <summary>
+            C# Socket.IO client interface
+            </summary>
         </member>
         <member name="F:SocketIOClient.Client.uri">
             <summary>
@@ -264,25 +169,100 @@
             Connection state of websocket client: None, Connecting, Open, Closing, Closed
             </summary>
         </member>
-        <member name="M:SocketIOClient.Messages.ErrorMessage.Deserialize(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="rawMessage">'7::' [endpoint] ':' [reason] '+' [advice]</param>
-            <returns>ErrorMessage</returns>
-        </member>
-        <member name="M:SocketIOClient.Eventing.RegistrationManager.InvokeOnEvent(SocketIOClient.Messages.IMessage)">
-            <summary>
-            If eventName is found, Executes Action delegate<typeparamref name="T"/> asynchronously
-            </summary>
-            <param name="eventName"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
         <member name="P:SocketIOClient.SocketIOHandshake.HeartbeatInterval">
             <summary>
             The HearbeatInterval will be approxamately 20% faster than the Socket.IO service indicated was required
             </summary>
+        </member>
+        <member name="T:SocketIOClient.Messages.Message">
+            <summary>
+            All Socket.IO messages have to be encoded before they're sent, and decoded when they're received.
+            They all have the format of: [message type] ':' [message id ('+')] ':' [message endpoint] (':' [message data])
+            </summary>
+        </member>
+        <member name="T:SocketIOClient.Messages.IMessage">
+            <summary>
+            Interface for core Message class
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.IMessage.MessageType">
+            <summary>
+            Enumeration of one of 9 basic messages provided by socket.io
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.IMessage.RawMessage">
+            <summary>
+            <para>RawMessage includes the full socket.io message string</para>
+            <para>[message type] ':' [message id ('+')] ':' [message endpoint] (':' [message data]) </para>
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.IMessage.Event">
+            <summary>
+            Event 'name' of originating message
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.IMessage.AckId">
+            <summary>
+            AckId represents unique id associated with a message callback
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.IMessage.Endpoint">
+            <summary>
+            Each socket is identified by an endpoint (can be omitted).
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.IMessage.MessageText">
+            <summary>
+            String version of message data
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.IMessage.Encoded">
+            <summary>
+            <para>Socket.IO encoded message structure - represents the actual message string sent to Socket.IO </para>
+            <para>[message type] ':' [message id ('+')] ':' [message endpoint] (':' [message data]) </para>
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.Message.MessageType">
+            <summary>
+            The message type represents a single digit integer [0-8].
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.Message.AckId">
+            <summary>
+            The message id is an incremental integer, required for ACKs (can be ommitted). 
+            If the message id is followed by a +, the ACK is not handled by socket.io, but by the user instead.
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.Message.Endpoint">
+            <summary>
+            Socket.IO has built-in support for multiple channels of communication (which we call "multiple sockets"). 
+            Each socket is identified by an endpoint (can be omitted).
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.Message.MessageText">
+            <summary>
+            String value of the message
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.Message.Event">
+            <summary>
+            String value of the Event
+            </summary>
+        </member>
+        <member name="P:SocketIOClient.Messages.Message.Encoded">
+            <summary>
+            <para>Messages have to be encoded before they're sent. The structure of a message is as follows:</para>
+            <para>[message type] ':' [message id ('+')] ':' [message endpoint] (':' [message data])</para>
+            <para>All message payloads are sent as strings</para>
+            </summary>
+        </member>
+        <member name="T:SocketIOClient.Messages.DisconnectMessage">
+            <summary>
+            Signals disconnection. If no endpoint is specified, disconnects the entire socket.
+            </summary>
+            <remarks>Disconnect a socket connected to the /test endpoint:
+            	0::/test
+            </remarks>
         </member>
         <member name="T:SocketIOClient.Messages.ConnectMessage">
             <summary>
@@ -291,6 +271,26 @@
             <remarks>If the client is trying to connect to the endpoint /test, a message like this will be delivered:
             	'1::' [path] [query]
             </remarks>
+        </member>
+        <member name="M:SocketIOClient.Messages.ErrorMessage.Deserialize(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="rawMessage">'7::' [endpoint] ':' [reason] '+' [advice]</param>
+            <returns>ErrorMessage</returns>
+        </member>
+        <member name="T:SocketIOClient.Messages.NoopMessage">
+            <summary>
+            Defined as No operation. Used for example to close a poll after the polling duration times out.
+            </summary>
+        </member>
+        <member name="M:SocketIOClient.Eventing.RegistrationManager.InvokeOnEvent(SocketIOClient.Messages.IMessage)">
+            <summary>
+            If eventName is found, Executes Action delegate<typeparamref name="T"/> asynchronously
+            </summary>
+            <param name="eventName"></param>
+            <param name="value"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

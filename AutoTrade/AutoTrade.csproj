@@ -47,9 +47,6 @@
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="SocketIOClient">
-      <HintPath>..\packages\SocketIO4Net.Client.0.6.26\lib\net40\SocketIOClient.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
@@ -131,6 +128,10 @@
     <ProjectReference Include="..\Logger\Logger.csproj">
       <Project>{580038c5-fb19-4d1e-8f90-329c28dc28ef}</Project>
       <Name>Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketIO4Net\SocketIO\SocketIOClient.csproj">
+      <Project>{352c9bc1-f74c-4741-a09d-7227bc60c057}</Project>
+      <Name>SocketIOClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

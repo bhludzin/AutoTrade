@@ -3,6 +3,13 @@ using CCXSharp.MtGox.Models;
 
 namespace CCXSharp.Models
 {
+	public enum PollingSource
+	{
+		Unknown,
+		SocketAPI,
+		HTTPAPI
+	}
+
     [Serializable]
     public class Ticker
     {
@@ -14,8 +21,9 @@ namespace CCXSharp.Models
         public string Bid { get; set; }
         public string Ask { get; set; }
         public DateTime TimeStamp { get; set; }
+	    public PollingSource Source { get; set; }
 
-        public Ticker()
+	    public Ticker()
         {
             
         }
@@ -30,6 +38,7 @@ namespace CCXSharp.Models
             Bid = mtgoxTicker.Buy.DisplayShort;
             Ask = mtgoxTicker.Sell.DisplayShort;
             TimeStamp = mtgoxTicker.TimeStamp;
+			Source = PollingSource.Unknown;
         }
     }
 }

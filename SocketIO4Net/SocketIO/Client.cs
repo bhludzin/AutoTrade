@@ -493,7 +493,6 @@ namespace SocketIOClient
 				try { this.Opened(this, EventArgs.Empty); }
                 catch (Exception ex) { Trace.WriteLine(ex); Logger.Logger.LogException(ex); }
 			}
-
 		}
 
 		/// <summary>

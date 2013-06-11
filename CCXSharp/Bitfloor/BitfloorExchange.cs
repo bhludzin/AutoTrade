@@ -13,8 +13,15 @@ namespace CCXSharp.Bitfloor
         private Client _client;
         private bool ConnectionRunning { get; set; }
         private DateTime LastMessage = DateTime.Now;
+	    private int _FailoverTimeout = 5000;
 
-        public bool SocketOpen
+	    public int FailoverTimeout
+	    {
+		    get { return _FailoverTimeout; }
+		    set { _FailoverTimeout = value; }
+	    }
+
+	    public bool SocketOpen
         {
             get { return (DateTime.Now - LastMessage).TotalMilliseconds > 5000; }
         }

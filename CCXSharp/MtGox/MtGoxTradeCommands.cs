@@ -36,7 +36,7 @@ namespace CCXSharp.MtGox
                 MtGoxTickerResponse tickerResponse = restClient.GetResponse<MtGoxTickerResponse>(String.Format("BTC{0}/money/ticker", currency.ToString()), Method.GET, null, AccessType.Public);
                 if (tickerResponse.Ticker == null)
                     throw new Exception("Failed to deserialize JSON object of type " + typeof(MtGoxTicker) + ". " + MtGoxRestClient.lastResponse);
-                return new Ticker(tickerResponse.Ticker);
+				return new Ticker(tickerResponse.Ticker) { Source = PollingSource.HTTPAPI };
             }
             catch (Exception ex)
             {

@@ -6,3 +6,11 @@ C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pip
 C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\bin\debug\SocketIOClient.dll.lastcodeanalysissucceeded
 C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.dll
 C:\Users\employee\Documents\Projects\Working CCX\pipe2grep-cryptocoinxchange\pipe2grep-cryptocoinxchange-bbe4645c2e2c\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.pdb
+E:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.xml
+E:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.dll
+E:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.pdb
+E:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.dll.CodeAnalysisLog.xml
+E:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.dll.lastcodeanalysissucceeded
+E:\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.csprojResolveAssemblyReference.cache
+E:\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.dll
+E:\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.pdb

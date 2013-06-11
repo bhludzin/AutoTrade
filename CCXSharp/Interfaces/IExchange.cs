@@ -13,26 +13,25 @@ namespace CCXSharp.Interfaces
     public delegate void GoxDepthHandler(DepthUpdate d);
     public delegate void GoxLagHandler(LagChannelResponse l);
     public delegate void GoxWalletHandler(WalletResponse wallet);
-    public delegate void GoxOrderHandler(Order o);
-
+	public delegate void GoxOrderHandler(Order o);
     public delegate void GoxDepthStringHandler(string s);
 
+	public interface IExchange
+	{
+		Ticker GetTicker(Currency currency);
+		Depth GetDepth(Currency currency);
+		CurrencyInfo GetCurrencyInfo(Currency currency);
+		MtGoxAccountInfo GetAccountInfo();
+		List<Order> GetOrders();
+		OrderCreateResponse CreateOrder(Currency currency, OrderType type, double amount, double? price);
+		OrderCancelResponse CancelOrder(Guid oid);
+		void StartDataPoller();
+		void StopDataPoller();
+		bool ValidApiKey { get; }
+		int FailoverTimeout { get; set; }
+	}
 
-    public interface IExchange
-    {
-        Ticker GetTicker(Currency currency);
-        Depth GetDepth(Currency currency);
-        CurrencyInfo GetCurrencyInfo(Currency currency);
-        MtGoxAccountInfo GetAccountInfo();
-        List<Order> GetOrders();
-        OrderCreateResponse CreateOrder(Currency currency, OrderType type, double amount, double? price);
-        OrderCancelResponse CancelOrder(Guid oid);
-        void StartDataPoller();
-        void StopDataPoller();
-        bool ValidApiKey { get; }
-    }
-
-    public interface IMtGoxExchange : IExchange
+	public interface IMtGoxExchange : IExchange
     {
         Lag GetLag();
         TradeResponse GetTrades(Currency currency);
@@ -41,7 +40,8 @@ namespace CCXSharp.Interfaces
         string APISecret { get; set; }
         string GetIdKey();
         bool SocketOpen { get; }
-        event GoxExceptionHandler GoxExceptionHandlers;
+		int HTTPApiDelay { get; set; }
+		event GoxExceptionHandler GoxExceptionHandlers;
         event GoxOrdersHandler GoxOrdersHandlers;
         event GoxAccountInfoHandler GoxAccountInfoHandlers;
         event GoxTickerHandler GoxTickerHandlers;

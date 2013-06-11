@@ -29,6 +29,7 @@ namespace AutoTrade
         private BackgroundWorker tickerWorker;
         private Timer tickerTimer;
         private decimal m_decLastPrice;
+	    private DateTime dtPollingStart;
 
         public frmMain()
         {
@@ -39,6 +40,11 @@ namespace AutoTrade
                 _connDB.Open();
 
                 exchangeConnection = new MtGoxExchange();
+	            int temp;
+				if (int.TryParse(ConfigurationManager.AppSettings["FailoverTimeout"], out temp))
+					exchangeConnection.FailoverTimeout = temp;
+				if (int.TryParse(ConfigurationManager.AppSettings["HTTPApiDelay"], out temp))
+					exchangeConnection.HTTPApiDelay = temp;
                 //Mediator.Instance.RegisterHandler<MtGoxTicker>("MtGoxTicker", SetTicker);
                 //            Mediator.Instance.RegisterHandler<Trade>("Trade", UpdateTradeChartDelegate);
                 //            Mediator.Instance.RegisterHandler<DepthUpdate>("DepthUpdate", UpdateDepthChartDelegate);
@@ -51,8 +57,6 @@ namespace AutoTrade
                 Logger.Logger.LogException(ex);
             }
         }
-
-
 
         private void timerDepth_Tick(object sender, EventArgs e)
         {
@@ -93,45 +97,93 @@ namespace AutoTrade
             {
                 Logger.Logger.LogException(ex);
             }
-
         }
-
 
         void exchangeConnection_GoxTickerHandlers(Ticker ticker)
         {
             try
             {
-                Decimal decBid = Convert.ToDecimal(ticker.Bid.Substring(1, ticker.Bid.Length - 1));
-                Decimal decAsk = Convert.ToDecimal(ticker.Ask.Substring(1, ticker.Ask.Length - 1));
-                Decimal decPrice = (decBid + decAsk) / 2;
-
-                RecordPrice(decBid, decAsk, decPrice, ticker.TimeStamp.ToString());
-
-                int cPrices = Convert.ToInt16(lblPriceCount.Text.Length == 0 ? "0" : lblPriceCount.Text);
-                ++cPrices;
-                lblPriceCount.Invoke((Action)(() =>
-                {
-                    lblPriceCount.Text = cPrices.ToString();
-                }));
-
-                lblLastResult.Invoke((Action)(() =>
-                {
-                    lblLastResult.Text = System.DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt");
-                }));
-
-                lblPrice.Invoke((Action)(() =>
-                {
-                    lblPrice.Text = ticker.Last.ToString();
-                }));
-
-                m_decLastPrice = Convert.ToDecimal(ticker.Last.Substring(1, ticker.Last.Length - 1));
+				switch (ticker.Source)
+				{
+					case PollingSource.SocketAPI:
+						UpdateFromSocketApi(ticker);
+						break;
+					case PollingSource.HTTPAPI:
+						UpdateFromHTTPApi(ticker);
+						break;
+				}
             }
             catch (Exception ex)
             {
                 Logger.Logger.LogException(ex);
             }
-
         }
+
+		void UpdateFromSocketApi(Ticker ticker)
+		{
+			Decimal decBid = Convert.ToDecimal(ticker.Bid.Substring(1, ticker.Bid.Length - 1));
+			Decimal decAsk = Convert.ToDecimal(ticker.Ask.Substring(1, ticker.Ask.Length - 1));
+			Decimal decPrice = (decBid + decAsk) / 2;
+
+			RecordPrice(decBid, decAsk, decPrice, ticker.TimeStamp.ToString());
+
+			int cPrices = Convert.ToInt16(lblPriceCount.Text.Length == 0 ? "0" : lblPriceCount.Text);
+			++cPrices;
+			lblPriceCount.Invoke((Action)(() =>
+			{
+				lblPriceCount.Text = cPrices.ToString();
+			}));
+
+			lblLastResult.Invoke((Action)(() =>
+			{
+				lblLastResult.Text = System.DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt");
+			}));
+
+			lblPrice.Invoke((Action)(() =>
+			{
+				lblPrice.Text = ticker.Last.ToString();
+			}));
+
+			lblPollingSource.Invoke((Action) (() =>
+			{
+				lblPollingSource.Text = "Socket API";
+			}));
+
+			m_decLastPrice = Convert.ToDecimal(ticker.Last.Substring(1, ticker.Last.Length - 1));
+		}
+
+		void UpdateFromHTTPApi(Ticker ticker)
+		{
+			Decimal decBid = Convert.ToDecimal(ticker.Bid.Substring(1, ticker.Bid.Length - 1));
+			Decimal decAsk = Convert.ToDecimal(ticker.Ask.Substring(1, ticker.Ask.Length - 1));
+			Decimal decPrice = (decBid + decAsk) / 2;
+
+			RecordPrice(decBid, decAsk, decPrice, ticker.TimeStamp.ToString());
+
+			int cPrices = Convert.ToInt16(lblPriceCountHTTP.Text.Length == 0 ? "0" : lblPriceCountHTTP.Text);
+			++cPrices;
+			lblPriceCountHTTP.Invoke((Action)(() =>
+			{
+				lblPriceCountHTTP.Text = cPrices.ToString();
+			}));
+
+			lblLastResultPriceHTTP.Invoke((Action)(() =>
+			{
+				lblLastResultPriceHTTP.Text = System.DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt");
+			}));
+
+			lblLastPriceHTTP.Invoke((Action)(() =>
+			{
+				lblLastPriceHTTP.Text = ticker.Last.ToString();
+			}));
+
+			lblPollingSource.Invoke((Action)(() =>
+			{
+				lblPollingSource.Text = "HTTP API";
+			}));
+
+			m_decLastPrice = Convert.ToDecimal(ticker.Last.Substring(1, ticker.Last.Length - 1));
+		}
 
         void exchangeConnection_GoxDepthHandlers(DepthUpdate depthUpdate)
         {
@@ -282,7 +334,8 @@ namespace AutoTrade
                 exchangeConnection.StartDataPoller();
                 lblPollingStatus.BackColor = Color.Green;
                 lblPollingStatus.Text = "Polling";
-                lblPollingStarted.Text = System.DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt");
+	            dtPollingStart = DateTime.Now;
+                lblPollingStarted.Text = dtPollingStart.ToString("M/dd/yyyy hh:mm:ss tt");
                 timerCurrent.Enabled = true;
                 timerDepth.Enabled = true;
             }
@@ -314,11 +367,8 @@ namespace AutoTrade
         {
             try
             {
-            DateTime dtStarted;
-
-            lblCurrentTime.Text = System.DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt"); ;
-            DateTime.TryParse(lblPollingStarted.Text, out dtStarted);
-            lblElapsedTime.Text = (System.DateTime.Now - dtStarted).ToString();
+				lblCurrentTime.Text = DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt");
+				lblElapsedTime.Text = (DateTime.Now - dtPollingStart).ToString();
             }
             catch (Exception ex)
             {
