@@ -7,3 +7,7 @@ C:\Users\employee\Documents\Projects\AutoTrade - Copy\Logger\bin\Release\Logger.
 C:\Users\employee\Documents\Projects\AutoTrade - Copy\Logger\bin\Release\Logger.pdb
 C:\Users\employee\Documents\Projects\AutoTrade - Copy\Logger\obj\Release\Logger.dll
 C:\Users\employee\Documents\Projects\AutoTrade - Copy\Logger\obj\Release\Logger.pdb
+E:\Projects\AutoTrade\Logger\bin\Release\Logger.dll
+E:\Projects\AutoTrade\Logger\bin\Release\Logger.pdb
+E:\Projects\AutoTrade\Logger\obj\Release\Logger.dll
+E:\Projects\AutoTrade\Logger\obj\Release\Logger.pdb

@@ -299,7 +299,8 @@ namespace AutoTrade
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogException(ex);
+				//BB - temporarily commenting this out as it throws an exception EVERY time
+                //Logger.Logger.LogException(ex);
             }
         }
 

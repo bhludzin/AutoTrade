@@ -160,8 +160,10 @@ namespace CCXSharp.MtGox
 				//BB - reorganized this loop so that when we aren't polling this method ends (and thus our Task)
 				if (m_bRetry)
 				{
+					m_bRetry = false;
 					InitializeSocket();
 					sw = Stopwatch.StartNew();
+					LastSocketMessage = DateTime.Now;
 				}
 				try
 				{
@@ -186,8 +188,11 @@ namespace CCXSharp.MtGox
 						//BB - if our client isn't connected, reinit sockets
 						if ((DateTime.Now - failoverTime).TotalMilliseconds > FailoverTimeout)
 						{
-							InitializeSocket();
-							LastSocketMessage = DateTime.Now;
+							m_bRetry = true;
+							Thread.Sleep(100);
+							continue;
+							//InitializeSocket();
+							//LastSocketMessage = DateTime.Now;
 						}
 					}
 					else if (failover) //BB - socket is back up
@@ -212,8 +217,10 @@ namespace CCXSharp.MtGox
 				}
 				catch (Exception ex)
 				{
+					//BB - log the exception and keep going; we do not want to break out of this
+					//loop unless the user forces it
 					Logger.Logger.LogException(ex);
-					break;
+					//break;
 					//if (GoxExceptionHandlers != null)
 					//{ GoxExceptionHandlers(ex); }
 					//Mediator.Instance.NotifyColleagues("Exception", ex);

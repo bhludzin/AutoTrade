@@ -52,3 +52,29 @@ C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\obj\Release\Auto
 C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\obj\Release\AutoTrade.csproj.GenerateResource.Cache
 C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\obj\Release\AutoTrade.exe
 C:\Users\employee\Documents\Projects\AutoTrade - Copy\AutoTrade\obj\Release\AutoTrade.pdb
+E:\Projects\AutoTrade\AutoTrade\bin\Release\AutoTrade.exe.config
+E:\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.exe
+E:\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.pdb
+E:\Projects\AutoTrade\AutoTrade\bin\Release\AutoTrade.exe
+E:\Projects\AutoTrade\AutoTrade\bin\Release\AutoTrade.pdb
+E:\Projects\AutoTrade\AutoTrade\bin\Release\CCXSharp.dll
+E:\Projects\AutoTrade\AutoTrade\bin\Release\Cinch.WPF.dll
+E:\Projects\AutoTrade\AutoTrade\bin\Release\Logger.dll
+E:\Projects\AutoTrade\AutoTrade\bin\Release\MEFedMVVM.WPF.dll
+E:\Projects\AutoTrade\AutoTrade\bin\Release\Microsoft.Expression.Interactions.dll
+E:\Projects\AutoTrade\AutoTrade\bin\Release\Newtonsoft.Json.dll
+E:\Projects\AutoTrade\AutoTrade\bin\Release\RestSharp.dll
+E:\Projects\AutoTrade\AutoTrade\bin\Release\SocketIOClient.dll
+E:\Projects\AutoTrade\AutoTrade\bin\Release\System.Windows.Interactivity.dll
+E:\Projects\AutoTrade\AutoTrade\bin\Release\WebSocket4Net.dll
+E:\Projects\AutoTrade\AutoTrade\bin\Release\CCXSharp.pdb
+E:\Projects\AutoTrade\AutoTrade\bin\Release\Logger.pdb
+E:\Projects\AutoTrade\AutoTrade\bin\Release\SocketIOClient.pdb
+E:\Projects\AutoTrade\AutoTrade\bin\Release\SocketIOClient.xml
+E:\Projects\AutoTrade\AutoTrade\bin\Release\Newtonsoft.Json.xml
+E:\Projects\AutoTrade\AutoTrade\bin\Release\RestSharp.xml
+E:\Projects\AutoTrade\AutoTrade\bin\Release\WebSocket4Net.pdb
+E:\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.csprojResolveAssemblyReference.cache
+E:\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.frmMain.resources
+E:\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.Properties.Resources.resources
+E:\Projects\AutoTrade\AutoTrade\obj\Release\AutoTrade.csproj.GenerateResource.Cache
