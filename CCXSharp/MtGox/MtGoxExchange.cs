@@ -169,7 +169,7 @@ namespace CCXSharp.MtGox
 				{
 					//BB - our socket is not connected or connecting and we have passed the timeout period
 					//so we should fail over to HTTP API for the same timeout period and check again
-					if (!SocketOpen && (DateTime.Now - LastSocketMessage).TotalMilliseconds > FailoverTimeout) 
+					if (!SocketOpen || (DateTime.Now - LastSocketMessage).TotalMilliseconds > FailoverTimeout) 
 					{
 						if (!failover)
 						{
