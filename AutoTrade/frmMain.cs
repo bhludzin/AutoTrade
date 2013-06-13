@@ -18,6 +18,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using Microsoft.Win32;
 using Logger;
 using System.Configuration;
+using System.Net;
 
 namespace AutoTrade
 {
@@ -30,6 +31,19 @@ namespace AutoTrade
         private Timer tickerTimer;
         private decimal m_decLastPrice;
 	    private DateTime dtPollingStart;
+	    private DateTime dtLastUpdate;
+		private static object lastUpdateLock = new object();
+		private const string smsResource = @"https://api.sendhub.com/v1/messages/?username={0}&api_key={1}";
+	    private const string smsTextDown = @"AutoTrade socket and HTTP APIs are down";
+		private const string smsTextUp = @"AutoTrade socket and HTTP APIs have been restored";
+		private string smsContactId = null;
+		private string smsApiNumber = null;
+		private string smsApiKey = null;
+	    private int smsDelay = 30000;
+	    private int smsRenotify = 0;	//0 = do not renotify
+		private Timer apiTimer = new Timer();
+		private Timer smsRenotifyTimer = new Timer();
+	    private bool isApiUp = true;
 
         public frmMain()
         {
@@ -47,6 +61,14 @@ namespace AutoTrade
 					exchangeConnection.HTTPApiPriceDelay = temp;
 				if (int.TryParse(ConfigurationManager.AppSettings["HTTPApiDepthDelay"], out temp))
 					exchangeConnection.HTTPApiDepthDelay = temp;
+
+				if (int.TryParse(ConfigurationManager.AppSettings["SMSNotifyDelay"], out temp))
+					smsDelay = temp;
+				if (int.TryParse(ConfigurationManager.AppSettings["SMSRenotifyPeriod"], out temp))
+					smsRenotify = temp;
+				smsContactId = ConfigurationManager.AppSettings["SMSNotifyContactId"];
+				smsApiKey = ConfigurationManager.AppSettings["SendHubAPIKey"];
+				smsApiNumber = ConfigurationManager.AppSettings["SendHubUserNumber"];
                 //Mediator.Instance.RegisterHandler<MtGoxTicker>("MtGoxTicker", SetTicker);
                 //            Mediator.Instance.RegisterHandler<Trade>("Trade", UpdateTradeChartDelegate);
                 //            Mediator.Instance.RegisterHandler<DepthUpdate>("DepthUpdate", UpdateDepthChartDelegate);
@@ -62,6 +84,45 @@ namespace AutoTrade
 						timerDepth.Enabled = true;
 		            };
 	            //            exchangeConnection.GoxDepthStringHandlers += exchangeConnection_GoxDepthStringHandlers;
+
+				smsRenotifyTimer.Interval = smsRenotify;
+				smsRenotifyTimer.Tick += (sender, args) => NotifySMS(smsTextDown);
+				smsRenotifyTimer.Enabled = false;
+
+	            apiTimer.Interval = smsDelay;
+	            apiTimer.Tick += (sender, args) =>
+		            {
+						//BB - check to see if we need to kick off an SMS because we haven't
+						//received any messages from socket OR http api
+						bool notify = false;
+						lock (lastUpdateLock)
+						{
+							notify = (DateTime.Now - dtLastUpdate).TotalMilliseconds > smsDelay;
+						}
+						if (notify)
+						{
+							//BB - we need to send SMS; lets decrease the interval to check for API 
+							//being re-established
+							if (isApiUp)
+							{
+								NotifySMS(smsTextDown);
+								apiTimer.Interval = 5000;
+								isApiUp = false;
+							}
+							//BB - if we want to renotify, enable that timer now
+							if (smsRenotify > 0)
+								smsRenotifyTimer.Enabled = true;
+						}
+						else if (!isApiUp)
+						{
+							//BB - api re-established, lets restore timers
+							apiTimer.Interval = smsDelay;
+							NotifySMS(smsTextUp);
+							isApiUp = true;
+							if (smsRenotifyTimer.Enabled)
+								smsRenotifyTimer.Enabled = false;
+						}
+		            };
             }
             catch (Exception ex)
             {
@@ -69,9 +130,43 @@ namespace AutoTrade
             }
         }
 
+		private void NotifySMS(string text)
+		{
+			try
+			{
+				var msg = string.Format("{{\"contacts\" : [{0}],\"text\" : \"{1}\"}}", smsContactId, text);
+				byte[] msgBytes = Encoding.UTF8.GetBytes(msg);
+				var request = (HttpWebRequest)WebRequest.Create(string.Format(smsResource, smsApiNumber, RestSharp.Contrib.HttpUtility.UrlEncode(smsApiKey)));
+				request.Method = "POST";
+				request.ContentType = "application/json";
+				request.ContentLength = msgBytes.Length;
+
+				using (var requestStream = request.GetRequestStream())
+				{
+					requestStream.Write(msgBytes, 0, msgBytes.Length);
+				}
+
+				using (var response = (HttpWebResponse) request.GetResponse())
+				{
+					if (response.StatusCode != HttpStatusCode.Created)
+					{
+						Logger.Logger.LogEvent("Unable to send SMS");
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Logger.Logger.LogException(ex);
+			}
+		}
+
 		void exchangeConnection_GoxFullDepthHandlers(Depth depth)
 		{
 			RecordOrdersFromFullDepth(depth);
+			lock (lastUpdateLock)
+			{
+				dtLastUpdate = DateTime.Now;
+			}
 		}
 
 	    private void RecordOrdersFromFullDepth(Depth depth)
@@ -199,6 +294,11 @@ namespace AutoTrade
             {
                 Logger.Logger.LogException(ex);
             }
+
+			lock (lastUpdateLock)
+			{
+				dtLastUpdate = DateTime.Now;
+			}
         }
 
 		void UpdateFromSocketApi(Ticker ticker)
@@ -321,12 +421,21 @@ namespace AutoTrade
                     lblLastResult.Text = System.DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt");
                 }));
 
+				lblPollingSource.Invoke((Action)(() =>
+				{
+					lblPollingSource.Text = "Socket API";
+				}));
+
             }
             catch (Exception ex)
             {
                 Logger.Logger.LogException(ex);
             }
 
+			lock (lastUpdateLock)
+			{
+				dtLastUpdate = DateTime.Now;
+			}
         }
 
         void exchangeConnection_GoxDepthStringHandlers(string s)
@@ -440,6 +549,10 @@ namespace AutoTrade
                 lblPollingStarted.Text = dtPollingStart.ToString("M/dd/yyyy hh:mm:ss tt");
                 timerCurrent.Enabled = true;
                 timerDepth.Enabled = true;
+	            apiTimer.Enabled = true;
+	            isApiUp = true;
+	            lock (lastUpdateLock)
+		            dtLastUpdate = DateTime.Now;
             }
             catch (Exception ex)
             {
@@ -458,6 +571,7 @@ namespace AutoTrade
                 timerDepth.Enabled = false;
                 lblBidAskCount.Text = "";
                 lblPriceCount.Text = "";
+	            apiTimer.Enabled = false;
             }
             catch (Exception ex)
             {
