@@ -286,6 +286,7 @@
 			this.btnManualRequestOrderHTTP.TabIndex = 39;
 			this.btnManualRequestOrderHTTP.Text = "Manual Request";
 			this.btnManualRequestOrderHTTP.UseVisualStyleBackColor = true;
+			this.btnManualRequestOrderHTTP.Click += new System.EventHandler(this.btnManualRequestOrderHTTP_Click);
 			// 
 			// lblLastResultOrderHTTP
 			// 

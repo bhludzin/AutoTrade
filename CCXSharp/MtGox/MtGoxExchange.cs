@@ -35,11 +35,18 @@ namespace CCXSharp.MtGox
 			set { _FailoverTimeout = value; }
 		}
 
-		private int _HTTPApiDelay = 2000;
-		public int HTTPApiDelay
+		private int _HTTPApiPriceDelay = 2000;
+		public int HTTPApiPriceDelay
 		{
-			get { return _HTTPApiDelay; }
-			set { _HTTPApiDelay = value; }
+			get { return _HTTPApiPriceDelay; }
+			set { _HTTPApiPriceDelay = value; }
+		}
+
+		private int _HTTPApiDepthDelay = 120000;
+		public int HTTPApiDepthDelay
+		{
+			get { return _HTTPApiDepthDelay; }
+			set { _HTTPApiDepthDelay = value; }
 		}
 
 		public bool SocketOpen
@@ -88,7 +95,8 @@ namespace CCXSharp.MtGox
 		public event GoxTradeHandler GoxTradeHandlers;
 		//public delegate void GoxTradeHandler(Trade t);
 
-		public event GoxDepthHandler GoxDepthHandlers;
+		public event GoxDepthUpdateHandler GoxDepthUpdateHandlers;
+		public event GoxFullDepthHandler GoxFullDepthHandlers;
 		public event GoxDepthStringHandler GoxDepthStringHandlers;
 		//public delegate void GoxDepthHandler(DepthUpdate d);
 
@@ -100,6 +108,9 @@ namespace CCXSharp.MtGox
 
 		public event GoxOrderHandler GoxOrderHandlers;
 		//public delegate void GoxOrderHandler(Order o);
+
+		public event EventHandler GoxSocketFailedHandlers;
+		public event EventHandler GoxSocketRestoredHandlers;
 
 
 		//if (GoxOrdersHandlers != null) { GoxOrdersHandlers(GetOrders()); }
@@ -152,7 +163,8 @@ namespace CCXSharp.MtGox
 			InitializeSocket();
 			Stopwatch sw = Stopwatch.StartNew();
 			bool failover = false;
-			DateTime lastHTTPRequest = DateTime.MinValue;
+			DateTime lastHTTPPriceRequest = DateTime.MinValue;
+			DateTime lastHTTPDepthRequest = DateTime.MinValue;
 			DateTime failoverTime = DateTime.MinValue;
 			LastSocketMessage = DateTime.Now;
 			while (ConnectionRunning)
@@ -162,7 +174,7 @@ namespace CCXSharp.MtGox
 				{
 					m_bRetry = false;
 					InitializeSocket();
-					sw = Stopwatch.StartNew();
+					//sw = Stopwatch.StartNew();
 					LastSocketMessage = DateTime.Now;
 				}
 				try
@@ -178,11 +190,21 @@ namespace CCXSharp.MtGox
 						}
 
 						//BB - do http api call, but only ever 2 seconds
+						if (!failover && GoxSocketFailedHandlers != null)
+							GoxSocketFailedHandlers(this, new EventArgs());
+
 						failover = true;
-						if (GoxTickerHandlers != null && (DateTime.Now - lastHTTPRequest).TotalMilliseconds > 2000)
+
+						if (GoxTickerHandlers != null && (DateTime.Now - lastHTTPPriceRequest).TotalMilliseconds > HTTPApiPriceDelay)
 						{
 							GoxTickerHandlers(GetTicker(Currency.USD));
-							lastHTTPRequest = DateTime.Now;
+							lastHTTPPriceRequest = DateTime.Now;
+						}
+
+						if (GoxFullDepthHandlers != null && (DateTime.Now - lastHTTPDepthRequest).TotalMilliseconds > HTTPApiDepthDelay)
+						{
+							GoxFullDepthHandlers(GetDepth(Currency.USD));
+							lastHTTPDepthRequest = DateTime.Now;
 						}
 
 						//BB - if our client isn't connected, reinit sockets
@@ -191,28 +213,37 @@ namespace CCXSharp.MtGox
 							m_bRetry = true;
 							Thread.Sleep(100);
 							continue;
-							//InitializeSocket();
-							//LastSocketMessage = DateTime.Now;
 						}
 					}
 					else if (failover) //BB - socket is back up
 					{
 						Logger.Logger.LogEvent("Socket API restored.");
 						failover = false;
+
+						//BB - call the http full depth order update again
+						if (GoxFullDepthHandlers != null)
+						{
+							GoxFullDepthHandlers(GetDepth(Currency.USD));
+							lastHTTPDepthRequest = DateTime.Now;
+						}
+
+						if(GoxSocketRestoredHandlers != null)
+							GoxSocketRestoredHandlers(this, new EventArgs());
 					}
 
-					if (sw.ElapsedMilliseconds > 30000)
-					{
-						sw.Restart();
-						if (GoxOrdersHandlers != null)
-							GoxOrdersHandlers(GetOrders());
-						//Mediator.Instance.NotifyColleagues("Orders", GetOrders());
-						if (GoxAccountInfoHandlers != null)
-							GoxAccountInfoHandlers(GetAccountInfo());
-						//Mediator.Instance.NotifyColleagues("AccountInfo", GetAccountInfo());
-						//BB - we don't need to reinitialize the socket unless it has been closed
-						//InitializeSocket();
-					}
+					//BB - this isn't used right now so I'm commenting it to not focus on it
+					//if (sw.ElapsedMilliseconds > 30000)
+					//{
+					//	sw.Restart();
+					//	if (GoxOrdersHandlers != null)
+					//		GoxOrdersHandlers(GetOrders());
+					//	//Mediator.Instance.NotifyColleagues("Orders", GetOrders());
+					//	if (GoxAccountInfoHandlers != null)
+					//		GoxAccountInfoHandlers(GetAccountInfo());
+					//	//Mediator.Instance.NotifyColleagues("AccountInfo", GetAccountInfo());
+					//	//BB - we don't need to reinitialize the socket unless it has been closed
+					//	//InitializeSocket();
+					//}
 					Thread.Sleep(100);
 				}
 				catch (Exception ex)
@@ -320,7 +351,7 @@ namespace CCXSharp.MtGox
 								//Mediator.Instance.NotifyColleagues("Trade", JsonConvert.DeserializeObject<Trade>(o["trade"].ToString()));
 								break;
 							case DepthChannel:
-								if (GoxDepthHandlers != null) { GoxDepthHandlers(JsonConvert.DeserializeObject<DepthUpdate>(o["depth"].ToString())); }
+								if (GoxDepthUpdateHandlers != null) { GoxDepthUpdateHandlers(JsonConvert.DeserializeObject<DepthUpdate>(o["depth"].ToString())); }
 								if (GoxDepthStringHandlers != null) { GoxDepthStringHandlers(args.Message.MessageText); }
 								//Mediator.Instance.NotifyColleagues("DepthUpdate", JsonConvert.DeserializeObject<DepthUpdate>(o["depth"].ToString()));
 								break;

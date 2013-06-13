@@ -10,7 +10,8 @@ namespace CCXSharp.Interfaces
     public delegate void GoxAccountInfoHandler(MtGoxAccountInfo info);
     public delegate void GoxTickerHandler(Ticker t);
     public delegate void GoxTradeHandler(Trade t);
-    public delegate void GoxDepthHandler(DepthUpdate d);
+	public delegate void GoxDepthUpdateHandler(DepthUpdate d);
+	public delegate void GoxFullDepthHandler(Depth d);
     public delegate void GoxLagHandler(LagChannelResponse l);
     public delegate void GoxWalletHandler(WalletResponse wallet);
 	public delegate void GoxOrderHandler(Order o);
@@ -40,17 +41,21 @@ namespace CCXSharp.Interfaces
         string APISecret { get; set; }
         string GetIdKey();
         bool SocketOpen { get; }
-		int HTTPApiDelay { get; set; }
+		int HTTPApiPriceDelay { get; set; }
+		int HTTPApiDepthDelay { get; set; }
 		event GoxExceptionHandler GoxExceptionHandlers;
         event GoxOrdersHandler GoxOrdersHandlers;
         event GoxAccountInfoHandler GoxAccountInfoHandlers;
         event GoxTickerHandler GoxTickerHandlers;
         event GoxTradeHandler GoxTradeHandlers;
-        event GoxDepthHandler GoxDepthHandlers;
+		event GoxDepthUpdateHandler GoxDepthUpdateHandlers;
+		event GoxFullDepthHandler GoxFullDepthHandlers;
         event GoxDepthStringHandler GoxDepthStringHandlers;
         event GoxLagHandler GoxLagHandlers;
         event GoxWalletHandler GoxWalletHandlers;
         event GoxOrderHandler GoxOrderHandlers;
+        event EventHandler GoxSocketFailedHandlers;
+        event EventHandler GoxSocketRestoredHandlers;
     }
 
     public interface IBitfloorExchange : IExchange
