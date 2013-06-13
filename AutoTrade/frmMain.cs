@@ -34,8 +34,8 @@ namespace AutoTrade
 	    private DateTime dtLastUpdate;
 		private static object lastUpdateLock = new object();
 		private const string smsResource = @"https://api.sendhub.com/v1/messages/?username={0}&api_key={1}";
-	    private const string smsTextDown = @"AutoTrade socket and HTTP APIs are down";
-		private const string smsTextUp = @"AutoTrade socket and HTTP APIs have been restored";
+	    private string smsTextDown = @"AutoTrade socket and HTTP APIs are down";
+		private string smsTextUp = @"AutoTrade socket and HTTP APIs have been restored";
 		private string smsContactId = null;
 		private string smsApiNumber = null;
 		private string smsApiKey = null;
@@ -69,6 +69,8 @@ namespace AutoTrade
 				smsContactId = ConfigurationManager.AppSettings["SMSNotifyContactId"];
 				smsApiKey = ConfigurationManager.AppSettings["SendHubAPIKey"];
 				smsApiNumber = ConfigurationManager.AppSettings["SendHubUserNumber"];
+				smsTextDown = ConfigurationManager.AppSettings["SMSTextAPIDown"];
+				smsTextUp = ConfigurationManager.AppSettings["SMSTextAPIUp"];
                 //Mediator.Instance.RegisterHandler<MtGoxTicker>("MtGoxTicker", SetTicker);
                 //            Mediator.Instance.RegisterHandler<Trade>("Trade", UpdateTradeChartDelegate);
                 //            Mediator.Instance.RegisterHandler<DepthUpdate>("DepthUpdate", UpdateDepthChartDelegate);
