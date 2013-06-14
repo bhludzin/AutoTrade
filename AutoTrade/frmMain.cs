@@ -201,13 +201,13 @@ namespace AutoTrade
 
 		    foreach (var item in depth.Asks)
 		    {
-			    if (RecordBidAskConditional(Convert.ToDecimal(item.Price), 0, 2, item.TimeStamp.ToString()) > 0)
+			    if (RecordBidAskConditional(Convert.ToDecimal(item.Price), Convert.ToDecimal(item.Amount), 2, item.TimeStamp.ToString()) > 0)
 				    insertedItems.Add(item);
 		    }
 
 		    foreach (var item in depth.Bids)
 		    {
-			    if (RecordBidAskConditional(Convert.ToDecimal(item.Price), 0, 1, item.TimeStamp.ToString()) > 0)
+				if (RecordBidAskConditional(Convert.ToDecimal(item.Price), Convert.ToDecimal(item.Amount), 1, item.TimeStamp.ToString()) > 0)
 				    insertedItems.Add(item);
 		    }
 
