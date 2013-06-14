@@ -28,6 +28,7 @@ namespace CCXSharp.MtGox
 		private const string LagChannel = "85174711-be64-4de1-b783-0628995d7914";
 		private DateTime LastSocketMessage = DateTime.Now;
 
+		//BB - how many ms until failing over from sockets to http
 		private int _FailoverTimeout = 5000;
 		public int FailoverTimeout
 		{
@@ -35,6 +36,7 @@ namespace CCXSharp.MtGox
 			set { _FailoverTimeout = value; }
 		}
 
+		//BB - how often to perform HTTP price call
 		private int _HTTPApiPriceDelay = 2000;
 		public int HTTPApiPriceDelay
 		{
@@ -42,11 +44,20 @@ namespace CCXSharp.MtGox
 			set { _HTTPApiPriceDelay = value; }
 		}
 
+		//BB - how often to perform HTTP Depth call
 		private int _HTTPApiDepthDelay = 120000;
 		public int HTTPApiDepthDelay
 		{
 			get { return _HTTPApiDepthDelay; }
 			set { _HTTPApiDepthDelay = value; }
+		}
+
+		//BB - how many ms until app decides we've lost the HTTP API
+		private int _HTTPApiTimeout = 30000;
+		public int HTTPApiTimeout
+		{
+			get { return _HTTPApiTimeout; }
+			set { _HTTPApiTimeout = value; }
 		}
 
 		public bool SocketOpen
@@ -112,6 +123,7 @@ namespace CCXSharp.MtGox
 		public event EventHandler GoxSocketFailedHandlers;
 		public event EventHandler GoxSocketRestoredHandlers;
 
+		public event GoxPollingSourceChangedHandler GoxPollingSourceChangedHandlers;
 
 		//if (GoxOrdersHandlers != null) { GoxOrdersHandlers(GetOrders()); }
 
@@ -187,24 +199,41 @@ namespace CCXSharp.MtGox
 						{
 							Logger.Logger.LogEvent("Socket API unavailable. Failing over to HTTP API.");
 							failoverTime = DateTime.Now;
+							if(GoxPollingSourceChangedHandlers != null)
+								GoxPollingSourceChangedHandlers(PollingSource.HTTPAPI);
+							if(GoxSocketFailedHandlers != null)
+								GoxSocketFailedHandlers(this, new EventArgs());
 						}
 
 						//BB - do http api call, but only ever 2 seconds
-						if (!failover && GoxSocketFailedHandlers != null)
-							GoxSocketFailedHandlers(this, new EventArgs());
-
 						failover = true;
 
 						if (GoxTickerHandlers != null && (DateTime.Now - lastHTTPPriceRequest).TotalMilliseconds > HTTPApiPriceDelay)
 						{
-							GoxTickerHandlers(GetTicker(Currency.USD));
-							lastHTTPPriceRequest = DateTime.Now;
+							var t = GetTicker(Currency.USD);
+							if (t != null)
+							{
+								GoxTickerHandlers(t);
+								lastHTTPPriceRequest = DateTime.Now;
+							}
 						}
 
 						if (GoxFullDepthHandlers != null && (DateTime.Now - lastHTTPDepthRequest).TotalMilliseconds > HTTPApiDepthDelay)
 						{
-							GoxFullDepthHandlers(GetDepth(Currency.USD));
-							lastHTTPDepthRequest = DateTime.Now;
+							var d = GetDepth(Currency.USD);
+							if (d != null)
+							{
+								GoxFullDepthHandlers(d);
+								lastHTTPDepthRequest = DateTime.Now;
+							}
+						}
+
+						if ((DateTime.Now - lastHTTPPriceRequest).TotalMilliseconds > HTTPApiTimeout &&
+							(DateTime.Now - lastHTTPDepthRequest).TotalMilliseconds > HTTPApiTimeout)
+						{
+							//BB - we've lost the HTTP api
+							if (GoxPollingSourceChangedHandlers != null)
+								GoxPollingSourceChangedHandlers(PollingSource.None);
 						}
 
 						//BB - if our client isn't connected, reinit sockets
@@ -221,6 +250,9 @@ namespace CCXSharp.MtGox
 						failover = false;
 
 						//BB - call the http full depth order update again
+						if (GoxPollingSourceChangedHandlers != null)
+							GoxPollingSourceChangedHandlers(PollingSource.SocketAPI);
+
 						if (GoxFullDepthHandlers != null)
 						{
 							GoxFullDepthHandlers(GetDepth(Currency.USD));

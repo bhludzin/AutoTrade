@@ -34,8 +34,6 @@
 			this.btnStart = new System.Windows.Forms.Button();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.lblPollingSource = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.lblLowAskHTTP = new System.Windows.Forms.Label();
 			this.label19 = new System.Windows.Forms.Label();
@@ -138,8 +136,6 @@
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.Controls.Add(this.lblPollingSource);
-			this.tabPage1.Controls.Add(this.label2);
 			this.tabPage1.Controls.Add(this.groupBox5);
 			this.tabPage1.Controls.Add(this.groupBox3);
 			this.tabPage1.Controls.Add(this.groupBox4);
@@ -161,22 +157,6 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Market Data";
 			this.tabPage1.UseVisualStyleBackColor = true;
-			// 
-			// lblPollingSource
-			// 
-			this.lblPollingSource.Location = new System.Drawing.Point(478, 88);
-			this.lblPollingSource.Name = "lblPollingSource";
-			this.lblPollingSource.Size = new System.Drawing.Size(167, 18);
-			this.lblPollingSource.TabIndex = 39;
-			// 
-			// label2
-			// 
-			this.label2.Location = new System.Drawing.Point(376, 88);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(102, 13);
-			this.label2.TabIndex = 38;
-			this.label2.Text = "Polling Source:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// groupBox5
 			// 
@@ -624,14 +604,14 @@
 			// 
 			// lblPollingStatus
 			// 
-			this.lblPollingStatus.BackColor = System.Drawing.Color.Red;
+			this.lblPollingStatus.BackColor = System.Drawing.Color.DarkRed;
 			this.lblPollingStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblPollingStatus.ForeColor = System.Drawing.SystemColors.Window;
 			this.lblPollingStatus.Location = new System.Drawing.Point(184, 17);
 			this.lblPollingStatus.Name = "lblPollingStatus";
 			this.lblPollingStatus.Size = new System.Drawing.Size(166, 88);
 			this.lblPollingStatus.TabIndex = 16;
-			this.lblPollingStatus.Text = "Not Polling";
+			this.lblPollingStatus.Text = "Polling Off";
 			this.lblPollingStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// tabPage2
@@ -744,9 +724,7 @@
         private System.Windows.Forms.Label lblElapsedTime;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label lblPollingStarted;
-        private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Label lblPollingSource;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label10;
     }
 }
 

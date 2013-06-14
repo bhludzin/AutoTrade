@@ -41,7 +41,7 @@ namespace CCXSharp.MtGox
             catch (Exception ex)
             {
                 Logger.Logger.LogException(ex);
-                return new Ticker();
+	            return null; //new Ticker();
             }
         }
 
@@ -57,7 +57,7 @@ namespace CCXSharp.MtGox
             catch (Exception ex)
             {
                 Logger.Logger.LogException(ex);
-                return new Depth();
+	            return null;// new Depth();
             }
         }
 

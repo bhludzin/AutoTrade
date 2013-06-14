@@ -5,7 +5,7 @@ namespace CCXSharp.Models
 {
 	public enum PollingSource
 	{
-		Unknown,
+		None,
 		SocketAPI,
 		HTTPAPI
 	}
@@ -38,7 +38,7 @@ namespace CCXSharp.Models
             Bid = mtgoxTicker.Buy.DisplayShort;
             Ask = mtgoxTicker.Sell.DisplayShort;
             TimeStamp = mtgoxTicker.TimeStamp;
-			Source = PollingSource.Unknown;
+			Source = PollingSource.None;
         }
     }
 }

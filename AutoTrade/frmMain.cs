@@ -41,9 +41,9 @@ namespace AutoTrade
 		private string smsApiKey = null;
 	    private int smsDelay = 30000;
 	    private int smsRenotify = 0;	//0 = do not renotify
-		private Timer apiTimer = new Timer();
 		private Timer smsRenotifyTimer = new Timer();
 	    private bool isApiUp = true;
+		private PollingSource pollingSource = PollingSource.None;
 
         public frmMain()
         {
@@ -62,8 +62,8 @@ namespace AutoTrade
 				if (int.TryParse(ConfigurationManager.AppSettings["HTTPApiDepthDelay"], out temp))
 					exchangeConnection.HTTPApiDepthDelay = temp;
 
-				if (int.TryParse(ConfigurationManager.AppSettings["SMSNotifyDelay"], out temp))
-					smsDelay = temp;
+				if (int.TryParse(ConfigurationManager.AppSettings["HTTPApiTimeout"], out temp))
+					exchangeConnection.HTTPApiTimeout = temp;
 				if (int.TryParse(ConfigurationManager.AppSettings["SMSRenotifyPeriod"], out temp))
 					smsRenotify = temp;
 				smsContactId = ConfigurationManager.AppSettings["SMSNotifyContactId"];
@@ -85,52 +85,61 @@ namespace AutoTrade
 		            {
 						timerDepth.Enabled = true;
 		            };
+				exchangeConnection.GoxPollingSourceChangedHandlers += exchangeConnection_GoxPollingSourceChangedHandlers;
 	            //            exchangeConnection.GoxDepthStringHandlers += exchangeConnection_GoxDepthStringHandlers;
 
 				smsRenotifyTimer.Interval = smsRenotify;
 				smsRenotifyTimer.Tick += (sender, args) => NotifySMS(smsTextDown);
 				smsRenotifyTimer.Enabled = false;
-
-	            apiTimer.Interval = smsDelay;
-	            apiTimer.Tick += (sender, args) =>
-		            {
-						//BB - check to see if we need to kick off an SMS because we haven't
-						//received any messages from socket OR http api
-						bool notify = false;
-						lock (lastUpdateLock)
-						{
-							notify = (DateTime.Now - dtLastUpdate).TotalMilliseconds > smsDelay;
-						}
-						if (notify)
-						{
-							//BB - we need to send SMS; lets decrease the interval to check for API 
-							//being re-established
-							if (isApiUp)
-							{
-								NotifySMS(smsTextDown);
-								apiTimer.Interval = 5000;
-								isApiUp = false;
-							}
-							//BB - if we want to renotify, enable that timer now
-							if (smsRenotify > 0)
-								smsRenotifyTimer.Enabled = true;
-						}
-						else if (!isApiUp)
-						{
-							//BB - api re-established, lets restore timers
-							apiTimer.Interval = smsDelay;
-							NotifySMS(smsTextUp);
-							isApiUp = true;
-							if (smsRenotifyTimer.Enabled)
-								smsRenotifyTimer.Enabled = false;
-						}
-		            };
             }
             catch (Exception ex)
             {
                 Logger.Logger.LogException(ex);
             }
         }
+
+		//BB - polling source change event
+		void exchangeConnection_GoxPollingSourceChangedHandlers(PollingSource source)
+		{
+			pollingSource = source;
+			switch (source)
+			{
+				case PollingSource.SocketAPI:
+					lblPollingStatus.BackColor = Color.Green;
+					lblPollingStatus.Text = "Polling (Socket)";
+					if (!isApiUp)
+					{
+						NotifySMS(smsTextUp);
+						if (smsRenotifyTimer.Enabled)
+							smsRenotifyTimer.Enabled = false;
+					}
+					isApiUp = true;
+					break;
+				case PollingSource.HTTPAPI:
+					lblPollingStatus.BackColor = Color.Orange;
+					lblPollingStatus.Text = "Polling (HTTP)";
+					if (!isApiUp)
+					{
+						NotifySMS(smsTextUp);
+						if (smsRenotifyTimer.Enabled)
+							smsRenotifyTimer.Enabled = false;
+					}
+					isApiUp = true;
+					break;
+				case PollingSource.None:
+					lblPollingStatus.BackColor = Color.Red;
+					lblPollingStatus.Text = "Polling Failure";
+					if (isApiUp)
+					{
+						NotifySMS(smsTextDown);
+						//BB - if we want to renotify, enable that timer now
+						if (smsRenotify > 0)
+							smsRenotifyTimer.Enabled = true;
+					}
+					isApiUp = false;
+					break;
+			}
+		}
 
 		private void NotifySMS(string text)
 		{
@@ -223,7 +232,7 @@ namespace AutoTrade
 							lblLastResultOrderHTTP.Text = item.TimeStamp.ToString("M/dd/yyyy hh:mm:ss tt");
 						}));
 
-					int cBidAsk = Convert.ToInt16(lblOrderCountHTTP.Text.Length == 0 ? "0" : lblOrderCountHTTP.Text);
+					int cBidAsk = Convert.ToInt32(lblOrderCountHTTP.Text.Length == 0 ? "0" : lblOrderCountHTTP.Text);
 
 					++cBidAsk;
 					lblOrderCountHTTP.Invoke((Action)(() =>
@@ -231,11 +240,6 @@ namespace AutoTrade
 							lblOrderCountHTTP.Text = cBidAsk.ToString();
 						}));
 				}
-
-				lblPollingSource.Invoke((Action)(() =>
-				{
-					lblPollingSource.Text = "HTTP API";
-				}));
 			}
 			catch (Exception ex)
 			{
@@ -264,7 +268,7 @@ namespace AutoTrade
 				(decimal) depth.FortyCoinVWAPSell,
 				System.DateTime.Now.ToLongTimeString());
 
-		    int cDepth = Convert.ToInt16(lblDepthCountHTTP.Text.Length == 0 ? "0" : lblDepthCountHTTP.Text);
+		    int cDepth = Convert.ToInt32(lblDepthCountHTTP.Text.Length == 0 ? "0" : lblDepthCountHTTP.Text);
 
 		    ++cDepth;
 		    lblDepthCountHTTP.Invoke((Action) (() => { lblDepthCountHTTP.Text = cDepth.ToString(); }));
@@ -311,7 +315,7 @@ namespace AutoTrade
 
 			RecordPrice(decBid, decAsk, decPrice, ticker.TimeStamp.ToString());
 
-			int cPrices = Convert.ToInt16(lblPriceCount.Text.Length == 0 ? "0" : lblPriceCount.Text);
+			int cPrices = Convert.ToInt32(lblPriceCount.Text.Length == 0 ? "0" : lblPriceCount.Text);
 			++cPrices;
 			lblPriceCount.Invoke((Action)(() =>
 			{
@@ -328,11 +332,6 @@ namespace AutoTrade
 				lblPrice.Text = ticker.Last.ToString();
 			}));
 
-			lblPollingSource.Invoke((Action) (() =>
-			{
-				lblPollingSource.Text = "Socket API";
-			}));
-
 			m_decLastPrice = Convert.ToDecimal(ticker.Last.Substring(1, ticker.Last.Length - 1));
 		}
 
@@ -344,7 +343,7 @@ namespace AutoTrade
 
 			RecordPrice(decBid, decAsk, decPrice, ticker.TimeStamp.ToString());
 
-			int cPrices = Convert.ToInt16(lblPriceCountHTTP.Text.Length == 0 ? "0" : lblPriceCountHTTP.Text);
+			int cPrices = Convert.ToInt32(lblPriceCountHTTP.Text.Length == 0 ? "0" : lblPriceCountHTTP.Text);
 			++cPrices;
 			lblPriceCountHTTP.Invoke((Action)(() =>
 			{
@@ -359,11 +358,6 @@ namespace AutoTrade
 			lblLastPriceHTTP.Invoke((Action)(() =>
 			{
 				lblLastPriceHTTP.Text = ticker.Last.ToString();
-			}));
-
-			lblPollingSource.Invoke((Action)(() =>
-			{
-				lblPollingSource.Text = "HTTP API";
 			}));
 
 			m_decLastPrice = Convert.ToDecimal(ticker.Last.Substring(1, ticker.Last.Length - 1));
@@ -410,7 +404,7 @@ namespace AutoTrade
 
                 RecordBidAsk(decPrice, decVolume, idOrderType, depthUpdate.TimeStamp.ToString());
 
-                int cBidAsk = Convert.ToInt16(lblBidAskCount.Text.Length == 0 ? "0" : lblBidAskCount.Text);
+                int cBidAsk = Convert.ToInt32(lblBidAskCount.Text.Length == 0 ? "0" : lblBidAskCount.Text);
 
                 ++cBidAsk;
                 lblBidAskCount.Invoke((Action)(() =>
@@ -422,12 +416,6 @@ namespace AutoTrade
                 {
                     lblLastResult.Text = System.DateTime.Now.ToString("M/dd/yyyy hh:mm:ss tt");
                 }));
-
-				lblPollingSource.Invoke((Action)(() =>
-				{
-					lblPollingSource.Text = "Socket API";
-				}));
-
             }
             catch (Exception ex)
             {
@@ -546,12 +534,11 @@ namespace AutoTrade
                 exchangeConnection.StopDataPoller();
                 exchangeConnection.StartDataPoller();
                 lblPollingStatus.BackColor = Color.Green;
-                lblPollingStatus.Text = "Polling";
+                lblPollingStatus.Text = "Polling (Socket)";
 	            dtPollingStart = DateTime.Now;
                 lblPollingStarted.Text = dtPollingStart.ToString("M/dd/yyyy hh:mm:ss tt");
                 timerCurrent.Enabled = true;
                 timerDepth.Enabled = true;
-	            apiTimer.Enabled = true;
 	            isApiUp = true;
 	            lock (lastUpdateLock)
 		            dtLastUpdate = DateTime.Now;
@@ -567,13 +554,12 @@ namespace AutoTrade
             try
             {
                 exchangeConnection.StopDataPoller();
-                lblPollingStatus.Text = "Not Polling";
-                lblPollingStatus.BackColor = Color.Red;
+                lblPollingStatus.Text = "Polling Off";
+                lblPollingStatus.BackColor = Color.DarkRed;
                 timerCurrent.Enabled = false;
                 timerDepth.Enabled = false;
                 lblBidAskCount.Text = "";
                 lblPriceCount.Text = "";
-	            apiTimer.Enabled = false;
             }
             catch (Exception ex)
             {

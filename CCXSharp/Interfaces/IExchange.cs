@@ -16,6 +16,7 @@ namespace CCXSharp.Interfaces
     public delegate void GoxWalletHandler(WalletResponse wallet);
 	public delegate void GoxOrderHandler(Order o);
     public delegate void GoxDepthStringHandler(string s);
+	public delegate void GoxPollingSourceChangedHandler(PollingSource source);
 
 	public interface IExchange
 	{
@@ -41,8 +42,9 @@ namespace CCXSharp.Interfaces
         string APISecret { get; set; }
         string GetIdKey();
         bool SocketOpen { get; }
-		int HTTPApiPriceDelay { get; set; }
+		int HTTPApiPriceDelay { get; set; } 
 		int HTTPApiDepthDelay { get; set; }
+		int HTTPApiTimeout { get; set; }
 		event GoxExceptionHandler GoxExceptionHandlers;
         event GoxOrdersHandler GoxOrdersHandlers;
         event GoxAccountInfoHandler GoxAccountInfoHandlers;
@@ -56,6 +58,7 @@ namespace CCXSharp.Interfaces
         event GoxOrderHandler GoxOrderHandlers;
         event EventHandler GoxSocketFailedHandlers;
         event EventHandler GoxSocketRestoredHandlers;
+		event GoxPollingSourceChangedHandler GoxPollingSourceChangedHandlers;
     }
 
     public interface IBitfloorExchange : IExchange
