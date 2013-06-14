@@ -102,46 +102,51 @@ namespace AutoTrade
 		void exchangeConnection_GoxPollingSourceChangedHandlers(PollingSource source)
 		{
 			pollingSource = source;
-			switch (source)
-			{
-				case PollingSource.SocketAPI:
-					lblPollingStatus.BackColor = Color.Green;
-					lblPollingStatus.Text = "Polling (Socket)";
-					if (!isApiUp)
-					{
-						NotifySMS(smsTextUp);
-						if (smsRenotifyTimer.Enabled)
-							smsRenotifyTimer.Enabled = false;
-					}
-					isApiUp = true;
-					break;
-				case PollingSource.HTTPAPI:
-					lblPollingStatus.BackColor = Color.Orange;
-					lblPollingStatus.Text = "Polling (HTTP)";
-					if (!isApiUp)
-					{
-						NotifySMS(smsTextUp);
-						if (smsRenotifyTimer.Enabled)
-							smsRenotifyTimer.Enabled = false;
-					}
-					isApiUp = true;
-					break;
-				case PollingSource.None:
-					lblPollingStatus.BackColor = Color.Red;
-					lblPollingStatus.Text = "Polling Failure";
-					if (isApiUp)
-					{
-						NotifySMS(smsTextDown);
-						//BB - if we want to renotify, enable that timer now
-						if (smsRenotify > 0)
-							smsRenotifyTimer.Enabled = true;
-					}
-					isApiUp = false;
-					break;
-			}
+			UpdatePollingState(source);
 		}
 
-		private void NotifySMS(string text)
+	    private void UpdatePollingState(PollingSource source)
+	    {
+		    switch (source)
+		    {
+			    case PollingSource.SocketAPI:
+				    lblPollingStatus.BackColor = Color.Green;
+				    lblPollingStatus.Text = "Polling (Socket)";
+				    if (!isApiUp)
+				    {
+					    NotifySMS(smsTextUp);
+					    if (smsRenotifyTimer.Enabled)
+						    smsRenotifyTimer.Enabled = false;
+				    }
+				    isApiUp = true;
+				    break;
+			    case PollingSource.HTTPAPI:
+				    lblPollingStatus.BackColor = Color.Orange;
+				    lblPollingStatus.Text = "Polling (HTTP)";
+				    if (!isApiUp)
+				    {
+					    NotifySMS(smsTextUp);
+					    if (smsRenotifyTimer.Enabled)
+						    smsRenotifyTimer.Enabled = false;
+				    }
+				    isApiUp = true;
+				    break;
+			    case PollingSource.None:
+				    lblPollingStatus.BackColor = Color.Red;
+				    lblPollingStatus.Text = "Polling Failure";
+				    if (isApiUp)
+				    {
+					    NotifySMS(smsTextDown);
+					    //BB - if we want to renotify, enable that timer now
+					    if (smsRenotify > 0)
+						    smsRenotifyTimer.Enabled = true;
+				    }
+				    isApiUp = false;
+				    break;
+		    }
+	    }
+
+	    private void NotifySMS(string text)
 		{
 			try
 			{
