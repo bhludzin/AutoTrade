@@ -49,9 +49,18 @@ namespace AutoTrade
         {
             InitializeComponent();
 
+			try
+			{
+				_connDB.Open();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Exception: " + ex.Message, "Unable to connect to database");
+				Environment.Exit(0);
+			}
+
             try
             {
-                _connDB.Open();
 
                 exchangeConnection = new MtGoxExchange();
 	            int temp;
