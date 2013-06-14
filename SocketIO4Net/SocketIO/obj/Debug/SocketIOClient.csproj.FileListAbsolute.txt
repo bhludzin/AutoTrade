@@ -14,3 +14,11 @@ E:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.dll.lastcodeanalysis
 E:\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.csprojResolveAssemblyReference.cache
 E:\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.dll
 E:\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.pdb
+C:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.xml
+C:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.dll
+C:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.pdb
+C:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.dll.CodeAnalysisLog.xml
+C:\Projects\AutoTrade\SocketIO4Net\bin\debug\SocketIOClient.dll.lastcodeanalysissucceeded
+C:\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.csprojResolveAssemblyReference.cache
+C:\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.dll
+C:\Projects\AutoTrade\SocketIO4Net\SocketIO\obj\Debug\SocketIOClient.pdb

@@ -107,11 +107,14 @@ namespace AutoTrade
 
 	    private void UpdatePollingState(PollingSource source)
 	    {
+	        Color backColor = Color.Red;
+	        string text = "Polling Failure";
+
 		    switch (source)
 		    {
 			    case PollingSource.SocketAPI:
-				    lblPollingStatus.BackColor = Color.Green;
-				    lblPollingStatus.Text = "Polling (Socket)";
+                    backColor = Color.Green;
+				    text = "Polling (Socket)";
 				    if (!isApiUp)
 				    {
 					    NotifySMS(smsTextUp);
@@ -121,8 +124,8 @@ namespace AutoTrade
 				    isApiUp = true;
 				    break;
 			    case PollingSource.HTTPAPI:
-				    lblPollingStatus.BackColor = Color.Orange;
-				    lblPollingStatus.Text = "Polling (HTTP)";
+				    backColor = Color.Orange;
+				    text = "Polling (HTTP)";
 				    if (!isApiUp)
 				    {
 					    NotifySMS(smsTextUp);
@@ -132,8 +135,8 @@ namespace AutoTrade
 				    isApiUp = true;
 				    break;
 			    case PollingSource.None:
-				    lblPollingStatus.BackColor = Color.Red;
-				    lblPollingStatus.Text = "Polling Failure";
+				    backColor = Color.Red;
+				    text = "Polling Failure";
 				    if (isApiUp)
 				    {
 					    NotifySMS(smsTextDown);
@@ -144,6 +147,12 @@ namespace AutoTrade
 				    isApiUp = false;
 				    break;
 		    }
+
+            lblPollingStatus.Invoke((Action)(() =>
+                {
+                    lblPollingStatus.BackColor = backColor;
+                    lblPollingStatus.Text = text;
+                }));
 	    }
 
 	    private void NotifySMS(string text)

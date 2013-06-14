@@ -16,3 +16,9 @@ E:\Projects\AutoTrade\bin\Debug\CCXSharp\CCXSharp.pdb
 E:\Projects\AutoTrade\CCXSharp\obj\Debug\CCXSharp.csprojResolveAssemblyReference.cache
 E:\Projects\AutoTrade\CCXSharp\obj\Debug\CCXSharp.dll
 E:\Projects\AutoTrade\CCXSharp\obj\Debug\CCXSharp.pdb
+C:\Projects\AutoTrade\bin\Debug\CCXSharp\CCXSharp.dll.config
+C:\Projects\AutoTrade\bin\Debug\CCXSharp\CCXSharp.dll
+C:\Projects\AutoTrade\bin\Debug\CCXSharp\CCXSharp.pdb
+C:\Projects\AutoTrade\CCXSharp\obj\Debug\CCXSharp.csprojResolveAssemblyReference.cache
+C:\Projects\AutoTrade\CCXSharp\obj\Debug\CCXSharp.dll
+C:\Projects\AutoTrade\CCXSharp\obj\Debug\CCXSharp.pdb
