@@ -24,7 +24,8 @@ namespace AutoTrade
 {
     public partial class frmMain : Form
     {
-        SqlConnection _connDB = new SqlConnection(ConfigurationManager.AppSettings["DBConnection"]);
+		//SqlConnection _connDB = new SqlConnection(ConfigurationManager.AppSettings["DBConnection"]);
+		string connStr = ConfigurationManager.AppSettings["DBConnection"];
         IMtGoxExchange exchangeConnection;
 
         private BackgroundWorker tickerWorker;
@@ -51,7 +52,10 @@ namespace AutoTrade
 
 			try
 			{
-				_connDB.Open();
+				using (var connDB = new SqlConnection(connStr))
+				{
+					connDB.Open();
+				}
 			}
 			catch (Exception ex)
 			{
@@ -215,16 +219,27 @@ namespace AutoTrade
 		    //BB - we want to break this into a series of orders and feed it into the stored proc
 		    var insertedItems = new List<DepthItem>();
 
-		    foreach (var item in depth.Asks)
+		    using (var connDB = new SqlConnection(connStr))
 		    {
-			    if (RecordBidAskConditional(Convert.ToDecimal(item.Price), Convert.ToDecimal(item.Amount), 2, item.TimeStamp.ToString()) > 0)
-				    insertedItems.Add(item);
-		    }
+			    foreach (var item in depth.Asks)
+			    {
+				    if (RecordBidAskConditional(Convert.ToDecimal(item.Price), Convert.ToDecimal(item.Amount), 2,
+												item.TimeStamp.ToString(), connDB) > 0)
+				    {
+					    item.Type = OrderType.Ask;
+					    insertedItems.Add(item);
+				    }
+			    }
 
-		    foreach (var item in depth.Bids)
-		    {
-				if (RecordBidAskConditional(Convert.ToDecimal(item.Price), Convert.ToDecimal(item.Amount), 1, item.TimeStamp.ToString()) > 0)
-				    insertedItems.Add(item);
+			    foreach (var item in depth.Bids)
+			    {
+				    if (RecordBidAskConditional(Convert.ToDecimal(item.Price), Convert.ToDecimal(item.Amount), 1,
+												item.TimeStamp.ToString(), connDB) > 0)
+				    {
+					    item.Type = OrderType.Bid;
+					    insertedItems.Add(item);
+				    }
+			    }
 		    }
 
 		    UpdateDepthFromHTTP(depth);
@@ -478,14 +493,18 @@ namespace AutoTrade
         {
             try
             {
-                SqlCommand myCommand = new SqlCommand("C_BITCOIN_DEPTH_INS", _connDB);
-                myCommand.CommandType = CommandType.StoredProcedure;
-		        myCommand.Parameters.Add(new SqlParameter("@decFortyCoinVWAPBuy", decFortyCoinVWAPBuy));
-		        myCommand.Parameters.Add(new SqlParameter("@decFortyCoinVWAPSell", decFortyCoinVWAPSell));
-                SqlParameter prmDepthDate = new SqlParameter("@dtDepthEST", SqlDbType.DateTime);
-                prmDepthDate.Value = sDepthDate;
-                myCommand.Parameters.Add(prmDepthDate);
-                myCommand.ExecuteNonQuery();
+	            using (var connDB = new SqlConnection(connStr))
+	            {
+		            connDB.Open();
+		            SqlCommand myCommand = new SqlCommand("C_BITCOIN_DEPTH_INS", connDB);
+		            myCommand.CommandType = CommandType.StoredProcedure;
+		            myCommand.Parameters.Add(new SqlParameter("@decFortyCoinVWAPBuy", decFortyCoinVWAPBuy));
+		            myCommand.Parameters.Add(new SqlParameter("@decFortyCoinVWAPSell", decFortyCoinVWAPSell));
+		            SqlParameter prmDepthDate = new SqlParameter("@dtDepthEST", SqlDbType.DateTime);
+		            prmDepthDate.Value = sDepthDate;
+		            myCommand.Parameters.Add(prmDepthDate);
+		            myCommand.ExecuteNonQuery();
+	            }
             }
             catch (Exception ex)
             {
@@ -498,15 +517,19 @@ namespace AutoTrade
         {
             try
             {
-                SqlCommand myCommand = new SqlCommand("C_BITCOIN_ORDER_INS", _connDB);
-                myCommand.CommandType = CommandType.StoredProcedure;
-                myCommand.Parameters.Add(new SqlParameter("@decPrice", decPrice));
-                myCommand.Parameters.Add(new SqlParameter("@decVolume", decVolume));
-                myCommand.Parameters.Add(new SqlParameter("@idOrderType", idOrderType));
-                SqlParameter prmOrderDate = new SqlParameter("@dtOrderUTC", SqlDbType.DateTime);
-                prmOrderDate.Value = sOrderDate;
-                myCommand.Parameters.Add(prmOrderDate);
-                myCommand.ExecuteNonQuery();
+	            using (var connDB = new SqlConnection(connStr))
+	            {
+		            connDB.Open();
+		            SqlCommand myCommand = new SqlCommand("C_BITCOIN_ORDER_INS", connDB);
+		            myCommand.CommandType = CommandType.StoredProcedure;
+		            myCommand.Parameters.Add(new SqlParameter("@decPrice", decPrice));
+		            myCommand.Parameters.Add(new SqlParameter("@decVolume", decVolume));
+		            myCommand.Parameters.Add(new SqlParameter("@idOrderType", idOrderType));
+		            SqlParameter prmOrderDate = new SqlParameter("@dtOrderUTC", SqlDbType.DateTime);
+		            prmOrderDate.Value = sOrderDate;
+		            myCommand.Parameters.Add(prmOrderDate);
+		            myCommand.ExecuteNonQuery();
+	            }
             }
             catch (Exception ex)
             {
@@ -514,19 +537,38 @@ namespace AutoTrade
             }
         }
 
-		public int RecordBidAskConditional(Decimal decPrice, Decimal decVolume, int idOrderType, string sOrderDate)
+		public int RecordBidAskConditional(Decimal decPrice, Decimal decVolume, int idOrderType, string sOrderDate, SqlConnection pConn = null)
 		{
 			try
 			{
-				SqlCommand myCommand = new SqlCommand("C_BITCOIN_ORDER_CONDITIONAL_INS", _connDB);
-				myCommand.CommandType = CommandType.StoredProcedure;
-				myCommand.Parameters.Add(new SqlParameter("@decPrice", decPrice));
-				myCommand.Parameters.Add(new SqlParameter("@decVolume", decVolume));
-				myCommand.Parameters.Add(new SqlParameter("@idOrderType", idOrderType));
-				SqlParameter prmOrderDate = new SqlParameter("@dtOrderUTC", SqlDbType.DateTime);
-				prmOrderDate.Value = sOrderDate;
-				myCommand.Parameters.Add(prmOrderDate);
-				return myCommand.ExecuteNonQuery();
+				if (pConn != null && pConn.State == ConnectionState.Open)
+				{
+					SqlCommand myCommand = new SqlCommand("C_BITCOIN_ORDER_CONDITIONAL_INS", pConn);
+					myCommand.CommandType = CommandType.StoredProcedure;
+					myCommand.Parameters.Add(new SqlParameter("@decPrice", decPrice));
+					myCommand.Parameters.Add(new SqlParameter("@decVolume", decVolume));
+					myCommand.Parameters.Add(new SqlParameter("@idOrderType", idOrderType));
+					SqlParameter prmOrderDate = new SqlParameter("@dtOrderUTC", SqlDbType.DateTime);
+					prmOrderDate.Value = sOrderDate;
+					myCommand.Parameters.Add(prmOrderDate);
+					return myCommand.ExecuteNonQuery();
+				}
+				else
+				{
+					using (var connDB = new SqlConnection(connStr))
+					{
+						connDB.Open();
+						SqlCommand myCommand = new SqlCommand("C_BITCOIN_ORDER_CONDITIONAL_INS", connDB);
+						myCommand.CommandType = CommandType.StoredProcedure;
+						myCommand.Parameters.Add(new SqlParameter("@decPrice", decPrice));
+						myCommand.Parameters.Add(new SqlParameter("@decVolume", decVolume));
+						myCommand.Parameters.Add(new SqlParameter("@idOrderType", idOrderType));
+						SqlParameter prmOrderDate = new SqlParameter("@dtOrderUTC", SqlDbType.DateTime);
+						prmOrderDate.Value = sOrderDate;
+						myCommand.Parameters.Add(prmOrderDate);
+						return myCommand.ExecuteNonQuery();
+					}
+				}
 			}
 			catch (Exception ex)
 			{
@@ -540,15 +582,19 @@ namespace AutoTrade
         {
             try
             {
-                SqlCommand myCommand = new SqlCommand("C_BITCOIN_PRICE_INS", _connDB);
-                myCommand.CommandType = CommandType.StoredProcedure;
-                myCommand.Parameters.Add(new SqlParameter("@decBid", decBid));
-                myCommand.Parameters.Add(new SqlParameter("@decAsk", decAsk));
-                myCommand.Parameters.Add(new SqlParameter("@decPrice", decPrice));
-                SqlParameter prmPriceDate = new SqlParameter("@dtPriceUTC", SqlDbType.DateTime);
-                prmPriceDate.Value = sPriceDate;
-                myCommand.Parameters.Add(prmPriceDate);
-                myCommand.ExecuteNonQuery();
+	            using (var connDB = new SqlConnection(connStr))
+	            {
+		            connDB.Open();
+		            SqlCommand myCommand = new SqlCommand("C_BITCOIN_PRICE_INS", connDB);
+		            myCommand.CommandType = CommandType.StoredProcedure;
+		            myCommand.Parameters.Add(new SqlParameter("@decBid", decBid));
+		            myCommand.Parameters.Add(new SqlParameter("@decAsk", decAsk));
+		            myCommand.Parameters.Add(new SqlParameter("@decPrice", decPrice));
+		            SqlParameter prmPriceDate = new SqlParameter("@dtPriceUTC", SqlDbType.DateTime);
+		            prmPriceDate.Value = sPriceDate;
+		            myCommand.Parameters.Add(prmPriceDate);
+		            myCommand.ExecuteNonQuery();
+	            }
             }
             catch (Exception ex)
             {
@@ -612,8 +658,31 @@ namespace AutoTrade
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            try
+			try
             {
+				//BB - stress test for DB
+				/*
+	            var sw = System.Diagnostics.Stopwatch.StartNew();
+				Random gen = new Random();
+				for (int i = 0; i < 200000; i++)
+				{
+					decimal bid = gen.Next(100, 150);
+					decimal ask = gen.Next(80, 100);
+					decimal price = gen.Next(90, 130);
+					decimal vol = gen.Next(0, 500);
+					int type = gen.Next(10);
+					string now = DateTime.Now.ToString();
+
+					RecordPrice(bid, ask, price, now);
+					RecordBidAsk(price, vol, (type % 2) + 1, now);
+					RecordDepthStats(price, vol, now);
+				}
+
+				var depth = exchangeConnection.GetDepth(Currency.USD);
+				RecordOrdersFromFullDepth(depth);
+				sw.Stop();
+	            MessageBox.Show("Time to complete: " + sw.Elapsed.ToString());
+				*/
             }
             catch (Exception ex)
             {

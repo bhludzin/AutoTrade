@@ -249,10 +249,10 @@ namespace CCXSharp.MtGox
 						Logger.Logger.LogEvent("Socket API restored.");
 						failover = false;
 
-						//BB - call the http full depth order update again
 						if (GoxPollingSourceChangedHandlers != null)
 							GoxPollingSourceChangedHandlers(PollingSource.SocketAPI);
 
+						//BB - call the http full depth order update again
 						if (GoxFullDepthHandlers != null)
 						{
 							GoxFullDepthHandlers(GetDepth(Currency.USD));
@@ -376,6 +376,8 @@ namespace CCXSharp.MtGox
 									ticker.Source = PollingSource.SocketAPI;
 									GoxTickerHandlers(ticker);
 								}
+								if (GoxPollingSourceChangedHandlers != null)
+									GoxPollingSourceChangedHandlers(PollingSource.SocketAPI);
 								//Mediator.Instance.NotifyColleagues("Ticker", new Ticker(JsonConvert.DeserializeObject<MtGoxTicker>(o["ticker"].ToString())));
 								break;
 							case TradesChannel:

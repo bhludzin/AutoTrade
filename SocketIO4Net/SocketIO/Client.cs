@@ -381,9 +381,8 @@ namespace SocketIOClient
 		{
             try
             {
-
                 bool skip = false;
-                if (!string.IsNullOrEmpty(msg.Event))
+                if (!string.IsNullOrEmpty(msg.Event) && this.registrationManager != null)
                     skip = this.registrationManager.InvokeOnEvent(msg); // 
 
                 var handler = this.Message;
